@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 
-import { Menu, MenuItem, IconButton } from "@mui/material";
+import { Menu, MenuItem, IconButton, Box, Button, Tab } from "@mui/material";
 
 import { Login, HowToReg, ChairAlt } from "@mui/icons-material";
+import LinkTab from "./link-tab.component";
 
 interface Props {
   mobileMoreAnchorEl: HTMLElement | null;
@@ -15,6 +16,7 @@ const MobileHeaderMenu: React.FC<Props> = ({
   isMobileMenuOpen,
   handleMobileMenuClose,
 }) => {
+  const [user, setUser] = useState<string | undefined>("Eric");
   return (
     <Menu
       anchorEl={mobileMoreAnchorEl}
@@ -31,24 +33,46 @@ const MobileHeaderMenu: React.FC<Props> = ({
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
-        <IconButton>
-          <Login />
-        </IconButton>
-        <p>Login</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton>
-          <HowToReg />
-        </IconButton>
-        <p>Signup</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton>
-          <ChairAlt />
-        </IconButton>
-        <p>Become a sitter</p>
-      </MenuItem>
+      {!user ? (
+        <Box>
+          <MenuItem>
+            <IconButton>
+              <Login />
+            </IconButton>
+            <p>Login</p>
+          </MenuItem>
+          <MenuItem>
+            <IconButton>
+              <HowToReg />
+            </IconButton>
+            <p>Signup</p>
+          </MenuItem>
+          <MenuItem>
+            <IconButton>
+              <ChairAlt />
+            </IconButton>
+            <p>Become a sitter</p>
+          </MenuItem>
+        </Box>
+      ) : (
+        <Box>
+          <MenuItem>
+            <LinkTab label="My Jobs" to="/my-jobs" />
+          </MenuItem>
+          <MenuItem>
+            <LinkTab label="My Bookings" to="/my-bookings" />
+          </MenuItem>
+          <MenuItem>
+            <LinkTab label="Messages" to="/messages" />
+          </MenuItem>
+          <MenuItem>
+            <LinkTab label="Profile" to="/profile" />
+          </MenuItem>
+          <MenuItem>
+          <Tab label="Logout" />
+          </MenuItem>
+        </Box>
+      )}
     </Menu>
   );
 };
