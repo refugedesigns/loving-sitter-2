@@ -1,0 +1,4 @@
+[2022-05-16 04:08:49.916] [exthost] [info] Extension host with pid 1267448 started
+[2022-05-16 04:08:49.916] [exthost] [info] Skipping acquiring lock for /home/loving-sitter-2/~/root/User/workspaceStorage/b983eea5ac9bbf4f8c2284f865335548.
+[2022-05-16 04:09:20.779] [exthost] [info] Extension host terminating: renderer closed the socket
+[2022-05-16 04:09:20.781] [exthost] [info] Extension host with pid 1267448 exiting with code 0
