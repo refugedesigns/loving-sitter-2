@@ -12,6 +12,15 @@ const theme = {
   shape: {
     borderRadius: 4,
   },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          padding: "16px 28px",
+        }
+      }
+    }
+  }
 } as const;
 
 type CustomTheme = {

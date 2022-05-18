@@ -8,9 +8,9 @@ export default function layoutWrapper<P>(
 ) {
   const withLayout = (props: P) => {
     return (
-      <Box>
+      <Box className="min-h-screen flex flex-col bg-[#F5F5F5]">
         <Header />
-        <Box className="pb-20 bg-[#F5F5F5]">
+        <Box className="pb-20  flex-1">
           <WrapperComponent {...props} />
         </Box>
         <Footer />
