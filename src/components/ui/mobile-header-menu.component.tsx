@@ -11,7 +11,7 @@ interface Props {
   handleMobileMenuClose: () => void;
 }
 
-const MobileHeaderMenu: React.FC<Props> = ({
+const MobileHeaderMenu: React.FC<Props> = React.memo(({
   mobileMoreAnchorEl,
   isMobileMenuOpen,
   handleMobileMenuClose,
@@ -75,6 +75,6 @@ const MobileHeaderMenu: React.FC<Props> = ({
       )}
     </Menu>
   );
-};
+});
 
 export default MobileHeaderMenu;
