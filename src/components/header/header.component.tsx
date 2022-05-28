@@ -20,7 +20,7 @@ import { MoreVert } from "@mui/icons-material";
 import MobileMenu from "../ui/mobile-header-menu.component";
 import LinkTab from "../ui/link-tab.component";
 
-const Header = () => {
+const Header = React.memo(() => {
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const [user, setUser] = useState<string | undefined>("Eric");
@@ -130,7 +130,7 @@ const Header = () => {
                       onClose={handleCloseUserMenu}
                     >
                       <MenuItem>
-                        <Box>Profile</Box>
+                        <Box>Account</Box>
                       </MenuItem>
                       <MenuItem>
                         <Box>Logout</Box>
@@ -145,6 +145,6 @@ const Header = () => {
       </AppBar>
     </Box>
   );
-};
+});
 
 export default Header;

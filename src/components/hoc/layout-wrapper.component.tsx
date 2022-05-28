@@ -10,7 +10,7 @@ export default function layoutWrapper<P>(
     return (
       <Box className="min-h-screen flex flex-col bg-[#F5F5F5]">
         <Header />
-        <Box className="pb-20  flex-1">
+        <Box className="flex-1">
           <WrapperComponent {...props} />
         </Box>
         <Footer />

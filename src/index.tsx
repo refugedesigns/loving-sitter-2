@@ -1,3 +1,8 @@
+import './components/dev/wdyr'
+
+import 'react-hot-loader'
+import { hot } from 'react-hot-loader/root'
+
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
@@ -6,6 +11,8 @@ import reportWebVitals from './reportWebVitals';
 import { StyledEngineProvider } from "@mui/material";
 import { BrowserRouter } from "react-router-dom";
 
+const HotApp = hot(App)
+
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
@@ -13,7 +20,7 @@ root.render(
   <React.StrictMode>
     <StyledEngineProvider injectFirst>
       <BrowserRouter>
-        <App />
+        <HotApp />
       </BrowserRouter>
     </StyledEngineProvider>
   </React.StrictMode>
