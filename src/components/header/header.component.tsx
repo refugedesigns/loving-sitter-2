@@ -130,7 +130,7 @@ const Header = React.memo(() => {
                       onClose={handleCloseUserMenu}
                     >
                       <MenuItem>
-                        <Box>Profile</Box>
+                        <Box>Account</Box>
                       </MenuItem>
                       <MenuItem>
                         <Box>Logout</Box>

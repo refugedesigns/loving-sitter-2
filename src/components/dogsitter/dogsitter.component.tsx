@@ -2,7 +2,7 @@ import React from "react";
 
 import { Card, Avatar, Typography, Box, Divider } from "@mui/material";
 import { Star } from "@mui/icons-material";
-import { LocationMarkerIcon } from "@heroicons/react/solid";
+import { HiLocationMarker } from "react-icons/hi";
 
 const Dogsitter = () => {
   return (
@@ -33,7 +33,7 @@ const Dogsitter = () => {
         <Divider />
         <Box className="flex items-center justify-between lg:p-2">
           <Box className="flex items-center">
-            <LocationMarkerIcon className="h-6 w-6 text-red-500" />
+            <HiLocationMarker className="h-6 w-6 text-red-500" />
             <Typography className="text-gray-500" variant="subtitle1">
               Toronto, Ontario
             </Typography>

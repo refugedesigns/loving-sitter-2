@@ -10,13 +10,10 @@ const MessageBox = () => {
   return (
     <Box className="flex-1 flex flex-col bg-white shadow-md h-full">
       <MessageBoxHeader />
-      <Box className="flex-1 py-10 overflow-y-scroll flex flex-col space-y-4">
+      <Box className="flex-1 py-10 overflow-y-auto flex flex-col space-y-4">
         <SenderMessageCard message="Hey Marry! I'm your dogsitter for next week. I can't wait to meet your companion!" />
         <RecipientMessageCard message="Hey Kenneth! So glad to hear! Looking forward to it. When can you come pick up Spike?" />
         <SenderMessageCard message="I'll send you details" />
-        {Array(10).fill(null).map((_, index) => (
-           <RecipientMessageCard message="Hey Kenneth! So glad to hear! Looking forward to it. When can you come pick up Spike?" /> 
-        ))}
       </Box>
       <Divider />
       <InputBox />
