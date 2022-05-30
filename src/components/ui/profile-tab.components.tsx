@@ -16,11 +16,11 @@ const ProfileTabPanel: React.FC<Props> = ({children, value, index, ...other}) =>
       id={`vertical-tabpanel-${index}`}
       aria-labelledby={`vertical-tab-${index}`}
       {...other}
-      className="min-h-full bg-green-200 w-full"
+      className="min-h-full w-full overflow-y-auto"
     >
       {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
+        <Box sx={{ p: 3, mt:3}}>
+          {children}
         </Box>
       )}
     </div>

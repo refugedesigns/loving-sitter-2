@@ -25,7 +25,7 @@ const DogsitterBookingCard = () => {
   );
   const [value, setValue] = React.useState<Date | null>(null);
   return (
-    <Card className="flex flex-col max-w-md px-4 py-8 space-y-8 mx-auto mb-10 h-max xl:fixed xl:right-[5%] 2xl:mr-[200px]">
+    <Card className="flex flex-col max-w-md px-4 py-8 space-y-8 mx-auto mb-10 h-max xl:fixed xl:right-[5%] 2xl:right-[18%]">
       <Box className="mx-auto flex flex-col items-center space-y-6">
         <Typography className="font-semibold" variant="h5">$30/hr</Typography>
         <Rating value={4} readOnly />
