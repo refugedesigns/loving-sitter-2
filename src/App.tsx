@@ -8,14 +8,14 @@ import HomePage from "./pages/home/home-page.component";
 import SignupPage from "./pages/signup/signup-page.component";
 import SigninPage from "./pages/signin/signin-page.component";
 import MessagesPage from "./pages/messages/messages-page.component";
-import ProfilePage from "./pages/profile/profile-page.component";
+import AccountPage from "./pages/account/account-page.component";
 import DogSitterDetailPage from "./pages/dogsitter-detail/dogsitter-detail-page.component";
 
 function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <DogSitterDetailPage />
+      <AccountPage />
     </ThemeProvider>
   );
 }

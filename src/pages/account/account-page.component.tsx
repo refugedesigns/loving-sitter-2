@@ -3,6 +3,7 @@ import React from 'react'
 import { Tabs, Tab, Box, Container } from "@mui/material"
 import ProfileTabPanel from "../../components/ui/profile-tab.components"
 import withLayout from "../../components/hoc/layout-wrapper.component"
+import EditProfile from '../../components/edit-profile/edit-profile.component';
 
 
 
@@ -14,7 +15,7 @@ function a11yProps(index: number) {
 }
 
 
-const ProfilePage = () => {
+const AccountPage = () => {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -60,7 +61,7 @@ const ProfilePage = () => {
        
       </Tabs>
       <ProfileTabPanel value={value} index={0}>
-        Item One
+        <EditProfile />
       </ProfileTabPanel>
       <ProfileTabPanel value={value} index={1}>
         Item Two
@@ -81,4 +82,4 @@ const ProfilePage = () => {
   );
 }
 
-export default withLayout(ProfilePage)
+export default withLayout(AccountPage)
