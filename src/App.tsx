@@ -15,7 +15,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <DogSitterDetailPage />
+      <ProfilePage />
     </ThemeProvider>
   );
 }

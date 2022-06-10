@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom"
+import React, { useCallback, useState } from "react";
+import { Link } from "react-router-dom";
 import {
   AppBar,
   Container,
@@ -19,12 +19,16 @@ import { MoreVert } from "@mui/icons-material";
 
 import MobileMenu from "../ui/mobile-header-menu.component";
 import LinkTab from "../ui/link-tab.component";
+import RegisterDositterModal from "../modals/register-dogsitter/register-dositter.component";
 
 const Header = React.memo(() => {
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState<null | HTMLElement>(null);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
+    useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const [user, setUser] = useState<string | undefined>("Eric");
   const [tabValue, setTabValue] = useState(0);
+  const [openRegisterDogsitterModal, setOpenRegisterDogsitterModal] =
+    useState<boolean>(false);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   const handleMobileMenuClose = () => {
@@ -39,18 +43,30 @@ const Header = React.memo(() => {
     setTabValue(newValue);
   };
 
-   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-     setAnchorElUser(event.currentTarget);
-   };
+  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElUser(event.currentTarget);
+  };
 
-    const handleCloseUserMenu = () => {
-      setAnchorElUser(null);
-    };
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
+
+  const handleOpenRegisterDogsitterModal = useCallback(() => {
+    setOpenRegisterDogsitterModal(true);
+  }, [openRegisterDogsitterModal]);
+
+  const handleCloseRegisterDogsitterModal = useCallback(() => {
+    setOpenRegisterDogsitterModal(false);
+  }, [openRegisterDogsitterModal]);
 
   return (
     <Box className="flex-1">
       <AppBar className="bg-white" position="fixed">
         <Container maxWidth="xl">
+          <RegisterDositterModal
+            openRegisterDogsitterModal={openRegisterDogsitterModal}
+            handleCloseRegisterDogsitterModal={handleCloseRegisterDogsitterModal}
+          />
           <Toolbar className="flex justify-between" disableGutters>
             <IconButton className="rounded-none">
               <CardMedia
@@ -91,7 +107,7 @@ const Header = React.memo(() => {
                 </Box>
               ) : (
                 <Box className="flex items-center">
-                  <Button className="text-gray-500 focus:text-[#f14140]">
+                  <Button onClick={handleOpenRegisterDogsitterModal} className="text-gray-500 focus:text-[#f14140]">
                     Become a sitter
                   </Button>
                   <Button className="text-gray-500 focus:text-[#f14140]">

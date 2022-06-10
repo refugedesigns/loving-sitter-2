@@ -27,7 +27,7 @@ const DogsitterBookingCard = () => {
   return (
     <Card className="flex flex-col max-w-md px-4 py-8 space-y-8 mx-auto mb-10 h-max xl:fixed xl:right-[5%] 2xl:mr-[200px]">
       <Box className="mx-auto flex flex-col items-center space-y-6">
-        <Typography className="font-semibold" variant="h5">$30/hr</Typography>
+        <Typography className="font-semibold text-5xl text-red-400" variant="h5">$30/hr</Typography>
         <Rating value={4} readOnly />
       </Box>
       <LocalizationProvider dateAdapter={AdapterMoment}>
