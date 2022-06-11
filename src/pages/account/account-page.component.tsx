@@ -3,7 +3,7 @@ import React from 'react'
 import { Tabs, Tab, Box, Container } from "@mui/material"
 import ProfileTabPanel from "../../components/ui/profile-tab.components"
 import withLayout from "../../components/hoc/layout-wrapper.component"
-import EditProfile from '../../components/edit-profile/edit-profile.component';
+import EditProfile from '../../components/account/edit-profile/edit-profile.component';
 
 
 
@@ -31,6 +31,7 @@ const AccountPage = () => {
         height: "80vh",
         marginTop: "40px",
       }}
+      maxWidth="md"
     >
       <Tabs
         orientation="vertical"
@@ -55,7 +56,7 @@ const AccountPage = () => {
           label="Availability"
           {...a11yProps(2)}
         />
-        <Tab className="whitespace-nowrap" label="Payment" {...a11yProps(3)} />
+        <Tab className="whitespace-nowrap" label="Image Gallery" {...a11yProps(3)} />
         <Tab className="whitespace-nowrap" label="Security" {...a11yProps(4)} />
         <Tab className="whitespace-nowrap" label="Settings" {...a11yProps(5)} />
        
