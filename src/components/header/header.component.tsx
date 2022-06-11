@@ -14,12 +14,14 @@ import {
   Tooltip,
   Menu,
   MenuItem,
+  ClickAwayListener,
 } from "@mui/material";
 import { MoreVert } from "@mui/icons-material";
 
 import MobileMenu from "../ui/mobile-header-menu.component";
 import LinkTab from "../ui/link-tab.component";
 import RegisterDositterModal from "../modals/register-dogsitter/register-dositter.component";
+import Notifications from "../notifications/notifications.component";
 
 const Header = React.memo(() => {
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
@@ -29,6 +31,7 @@ const Header = React.memo(() => {
   const [tabValue, setTabValue] = useState(0);
   const [openRegisterDogsitterModal, setOpenRegisterDogsitterModal] =
     useState<boolean>(false);
+  const [openNotification, setOpenNotification] = useState<boolean>(false);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   const handleMobileMenuClose = () => {
@@ -59,13 +62,23 @@ const Header = React.memo(() => {
     setOpenRegisterDogsitterModal(false);
   }, [openRegisterDogsitterModal]);
 
+  const handleOpenNotifications = () => {
+    setOpenNotification(true);
+  };
+
+  const handleClickAwayNotifications = () => {
+    setOpenNotification(false);
+  };
+
   return (
     <Box className="flex-1">
       <AppBar className="bg-white" position="fixed">
         <Container maxWidth="xl">
           <RegisterDositterModal
             openRegisterDogsitterModal={openRegisterDogsitterModal}
-            handleCloseRegisterDogsitterModal={handleCloseRegisterDogsitterModal}
+            handleCloseRegisterDogsitterModal={
+              handleCloseRegisterDogsitterModal
+            }
           />
           <Toolbar className="flex justify-between" disableGutters>
             <IconButton className="rounded-none">
@@ -106,13 +119,25 @@ const Header = React.memo(() => {
                   </Button>
                 </Box>
               ) : (
-                <Box className="flex items-center">
-                  <Button onClick={handleOpenRegisterDogsitterModal} className="text-gray-500 focus:text-[#f14140]">
+                <Box className="flex items-center relative">
+                  <Button
+                    onClick={handleOpenRegisterDogsitterModal}
+                    className="text-gray-500 focus:text-[#f14140]"
+                  >
                     Become a sitter
                   </Button>
-                  <Button className="text-gray-500 focus:text-[#f14140]">
-                    Notification
-                  </Button>
+                  <ClickAwayListener
+                  mouseEvent="onMouseDown"
+                  touchEvent="onTouchStart"
+                  onClickAway={handleClickAwayNotifications}
+                  >
+                    <Box className="">
+                      <Button onClick={handleOpenNotifications} className="text-gray-500 focus:text-[#f14140]">
+                        Notification
+                      </Button>
+                      {openNotification && <Notifications />}
+                    </Box>
+                  </ClickAwayListener>
                   <Tabs
                     value={tabValue}
                     onChange={handleChangeTab}
