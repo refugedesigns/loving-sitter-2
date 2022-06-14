@@ -5,7 +5,7 @@ import { FiSettings } from "react-icons/fi";
 
 const NextBookingCard = () => {
   return (
-    <Card className="p-4 max-w-lg shadow-xl rounded-lg space-y-6 mb-4">
+    <Card className="p-4 max-w-lg shadow-xl rounded-lg space-y-6 mb-4 mx-auto">
       <Box className="flex items-center justify-between">
         <Typography
           variant="subtitle2"

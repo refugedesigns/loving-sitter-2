@@ -11,12 +11,13 @@ import MessagesPage from "./pages/messages/messages-page.component";
 import AccountPage from "./pages/account/account-page.component";
 import DogSitterDetailPage from "./pages/dogsitter-detail/dogsitter-detail-page.component";
 import BookingsPage from "./pages/bookings/bookings.component"
+import RequestsPage from "./pages/requests/requests.component";
 
 function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <BookingsPage />
+      <RequestsPage />
     </ThemeProvider>
   );
 }
