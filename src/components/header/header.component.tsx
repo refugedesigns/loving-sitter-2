@@ -144,7 +144,7 @@ const Header = React.memo(() => {
                     aria-label="logged in nav tabs"
                     className="mr-6"
                   >
-                    <LinkTab label="My Jobs" to="/my-jobs" />
+                    <LinkTab label="Requests" to="/requests" />
                     <LinkTab label="My Bookings" to="/my-bookings" />
                     <LinkTab label="Messages" to="/messages" />
                   </Tabs>
