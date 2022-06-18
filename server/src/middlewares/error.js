@@ -1,10 +1,11 @@
 const createError = require("http-errors")
+const { CustomAPIError } = require("../utils/custom-error")
 
 const errorHandler = (error, req, res, next) => {
-  const status = error.statusCode || 500;
-  const message = error.message;
-  const data = error.data;
-  res.status(status).json({ message, data });
+  if(error instanceof CustomAPIError) {
+    return res.status(error.statusCode).json({msg: error.message})
+  }
+  return res.status(500).json({msg: "Something went wrong, please try again."})
 };
 
 const notFound = (req, res, next) => {

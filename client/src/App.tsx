@@ -1,5 +1,7 @@
 import React from "react";
 
+import { Routes, Route } from "react-router-dom";
+
 import { ThemeProvider } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
 import theme from "./theme/theme";
@@ -17,7 +19,18 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <AccountPage />
+      <Routes>
+        <Route path="/dogsitter-listings" element={<ListingsPage />} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/signup" element={<SignupPage />} />
+        <Route path="/login" element={<SigninPage />} />
+        <Route path="/accounts" element={<AccountPage />} />
+        <Route path="/messages" element={<MessagesPage />} />
+        <Route path="/requests" element={<RequestsPage />} />
+        <Route path="/bookings" element={<BookingsPage />} />
+        <Route path="/dogsitter/:dogsitterId" element={<DogSitterDetailPage />} />
+        <Route path="*" element={<h3>This page does not exist</h3>} />
+      </Routes>
     </ThemeProvider>
   );
 }

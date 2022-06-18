@@ -5,6 +5,7 @@ import { Tab } from "@mui/material";
 interface LinkTabProps {
   label?: string;
   to: string;
+  value?:string;
 }
 
 export default function LinkTab(props: LinkTabProps) {

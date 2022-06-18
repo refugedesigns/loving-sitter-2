@@ -57,16 +57,16 @@ const MobileHeaderMenu: React.FC<Props> = React.memo(({
       ) : (
         <Box>
           <MenuItem>
-            <LinkTab label="My Jobs" to="/my-jobs" />
+            <LinkTab label="Requests" to="/requests" value="/requets" />
           </MenuItem>
           <MenuItem>
-            <LinkTab label="My Bookings" to="/my-bookings" />
+            <LinkTab label="Bookings" to="/bookings" value="/bookings" />
           </MenuItem>
           <MenuItem>
-            <LinkTab label="Messages" to="/messages" />
+            <LinkTab label="Messages" to="/messages" value="/messages" />
           </MenuItem>
           <MenuItem>
-            <LinkTab label="Profile" to="/profile" />
+            <LinkTab label="Account" to="/account" value="/account" />
           </MenuItem>
           <MenuItem>
           <Tab label="Logout" />

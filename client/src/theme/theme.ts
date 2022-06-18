@@ -25,13 +25,13 @@ const theme = {
         body: {
           scrollbarColor: "#2b2b2b",
           "&::-webkit-scrollbar, & *::-webkit-scrollbar": {
-            backgroundColor: "black",
+            backgroundColor: "#E5E4E2",
             width: "8px",
           },
           "&::-webkit-scrollbar-thumb, & *::-webkit-scrollbar-thumb": {
             borderRadius: 8,
             minHeight: 24,
-            color: "red",
+            backgroundColor: "#C0C0C0",
           },
           "&::-webkit-scrollbar-thumb:focus, & *::-webkit-scrollbar-thumb:focus":
             {

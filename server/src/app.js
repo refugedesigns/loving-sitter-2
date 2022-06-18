@@ -1,30 +1,44 @@
-const path = require("path")
-const express = require("express")
-const cors = require("cors")
-const cookieParser = require("cookie-parser")
+require("./utils/passport");
+require("dotenv").config()
+const path = require("path");
+const express = require("express");
+const cors = require("cors");
+const cookieParser = require("cookie-parser");
 const cookieSession = require("cookie-session")
+const helmet = require("helmet");
+const passport = require("passport");
 
-const { notFound, errorHandler } = require("./middlewares/error")
-const api = require("./routes/api")
+const { notFound, errorHandler } = require("./middlewares/error");
+const api = require("./routes/api");
 
+const app = express();
 
-const app = express()
-
-app.use(cors({
-    origin: "http://localhost:3000",
-    credentials: true
-}))
-
-app.use(cookieSession({
+app.use(helmet());
+app.use(cookieParser());
+app.use(
+  cookieSession({
     name: "session",
-    keys: ["eras"]
-}))
+    keys: ["eras"],
+    maxAge: 24 * 60 * 60 * 1000,
+  })
+);
 
-app.use(express.json())
-app.use(express.urlencoded({extended: false}))
-app.use(cookieParser())
+app.use(passport.initialize());
+app.use(passport.session());
 
-app.use("/api/v1", api)
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
+
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
+
+app.use("/api/v1", api);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "..", "public")));
@@ -38,10 +52,7 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-
-
 app.use(notFound)
 app.use(errorHandler)
 
-
-module.exports = app
+module.exports = app;

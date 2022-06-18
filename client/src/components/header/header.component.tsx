@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from "react";
-import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import {
   AppBar,
   Container,
@@ -33,6 +33,7 @@ const Header = React.memo(() => {
     useState<boolean>(false);
   const [openNotification, setOpenNotification] = useState<boolean>(false);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  const location = useLocation();
 
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
@@ -43,6 +44,7 @@ const Header = React.memo(() => {
   };
 
   const handleChangeTab = (event: React.SyntheticEvent, newValue: number) => {
+    console.log(newValue);
     setTabValue(newValue);
   };
 
@@ -54,13 +56,13 @@ const Header = React.memo(() => {
     setAnchorElUser(null);
   };
 
-  const handleOpenRegisterDogsitterModal = useCallback(() => {
+  const handleOpenRegisterDogsitterModal = () => {
     setOpenRegisterDogsitterModal(true);
-  }, [openRegisterDogsitterModal]);
+  };
 
-  const handleCloseRegisterDogsitterModal = useCallback(() => {
+  const handleCloseRegisterDogsitterModal = () => {
     setOpenRegisterDogsitterModal(false);
-  }, [openRegisterDogsitterModal]);
+  };
 
   const handleOpenNotifications = () => {
     setOpenNotification(true);
@@ -127,26 +129,46 @@ const Header = React.memo(() => {
                     Become a sitter
                   </Button>
                   <ClickAwayListener
-                  mouseEvent="onMouseDown"
-                  touchEvent="onTouchStart"
-                  onClickAway={handleClickAwayNotifications}
+                    mouseEvent="onMouseDown"
+                    touchEvent="onTouchStart"
+                    onClickAway={handleClickAwayNotifications}
                   >
                     <Box className="">
-                      <Button onClick={handleOpenNotifications} className="text-gray-500 focus:text-[#f14140]">
+                      <Button
+                        onClick={handleOpenNotifications}
+                        className="text-gray-500 focus:text-[#f14140]"
+                      >
                         Notification
                       </Button>
                       {openNotification && <Notifications />}
                     </Box>
                   </ClickAwayListener>
                   <Tabs
-                    value={tabValue}
+                    value={
+                      (location.pathname === "/bookings" ||
+                        location.pathname === "/requests" ||
+                        location.pathname === "/messages") &&
+                      location.pathname
+                    }
                     onChange={handleChangeTab}
                     aria-label="logged in nav tabs"
                     className="mr-6"
                   >
-                    <LinkTab label="Requests" to="/requests" />
-                    <LinkTab label="My Bookings" to="/my-bookings" />
-                    <LinkTab label="Messages" to="/messages" />
+                    <LinkTab
+                      label="Requests"
+                      to="/requests"
+                      value="/requests"
+                    />
+                    <LinkTab
+                      label="Bookings"
+                      to="/bookings"
+                      value="/bookings"
+                    />
+                    <LinkTab
+                      label="Messages"
+                      to="/messages"
+                      value="/messages"
+                    />
                   </Tabs>
                   <Box>
                     <Tooltip title="Open settings">

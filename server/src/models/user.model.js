@@ -1,4 +1,4 @@
-const { Schema, model } = require("mongoose");
+const { Schema, model, default: mongoose } = require("mongoose");
 const bcrypt = require("bcrypt")
 
 const UserSchema = new Schema({
@@ -12,7 +12,6 @@ const UserSchema = new Schema({
     },
     password: {
         type: String,
-        required: true,
     },
     isDogsitter: {
         type: Boolean,
@@ -25,8 +24,12 @@ const UserSchema = new Schema({
     about: String,
     payments: Array,
     isThirdParty: {
-        type:Boolean,
+        type: Boolean,
         default: false,
+    },
+    googleId: {
+        type: String,
+        default: null
     },
     isAvailable: {
         type: Boolean,
@@ -42,8 +45,34 @@ const UserSchema = new Schema({
     ],
 })
 
-UserSchema.methods.matchPassword = async function(this, enteredPassword) {
+UserSchema.methods.matchPassword = async function(enteredPassword) {
     return await bcrypt.compare(enteredPassword, this.password)
+}
+
+UserSchema.methods.findOrCreate = async function (profile) {
+    try {
+    const user = await mongoose.model("User").find({googleId: profile.googleId})
+    if(!user) {
+        //add user to database
+        const newUser = {
+            fullName: profile.displayName,
+            googleId: profile.id,
+            email: profile.emails[0].value,
+            profilePhoto: profile.photos[0].value,
+            isThirdParty: true
+        }
+        const createdUser = await mongoose.model("User").create(newUser)
+        return createdUser
+    }
+    return user
+    } catch (error) {
+        return {
+            msg: "Something went wrong",
+            success: false,
+            code: 500
+        }
+    }
+   
 }
 
 UserSchema.pre("save", async function (next) {
@@ -56,4 +85,4 @@ UserSchema.pre("save", async function (next) {
 
 const User = model("User", UserSchema)
 
-model.exports = User
+module.exports = User
