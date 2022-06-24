@@ -21,7 +21,7 @@ const SearchInput = () => {
   };
 
   return (
-    <Box className="space-y-8 max-w-md mx-auto">
+    <Box className="space-y-4 max-w-md mx-auto">
       <Box>
         <InputLabel className="uppercase" htmlFor="location">
           Where

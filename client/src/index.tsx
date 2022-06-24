@@ -10,6 +10,9 @@ import {hot} from "react-hot-loader/root"
 import reportWebVitals from './reportWebVitals';
 import { StyledEngineProvider } from "@mui/material";
 import { BrowserRouter } from "react-router-dom";
+import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
+import { store, persistor } from "./redux/store";
 
 const HotApp = hot(App)
 
@@ -19,9 +22,13 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <StyledEngineProvider injectFirst>
-      <BrowserRouter>
-        <HotApp />
-      </BrowserRouter>
+      <Provider store={store}>
+        <BrowserRouter>
+          <PersistGate persistor={persistor}>
+            <HotApp />
+          </PersistGate>
+        </BrowserRouter>
+      </Provider>
     </StyledEngineProvider>
   </React.StrictMode>
 );

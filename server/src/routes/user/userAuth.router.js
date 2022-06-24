@@ -5,23 +5,28 @@ const CLIENT_URL = "http://localhost:3000";
 
 const router = Router();
 
-router.route("/signup").post();
-router.route("/login").post();
+//Passport local
+router.post("/signup", passport.authenticate('local-signup'), (req, res) => {
+  res.status(201).json(req.user)
+});
+router.post("/login", passport.authenticate("local-login"), (req, res) => {
+  res.status(200).json(req.user)
+});
 router.route("/register-dogsitter").post();
 router.route("/").get();
 
 //Google login routes
-router.get("/google-login/success", function (req, res) {
+router.get("/login/success", function (req, res) {
   if (req.user) {
     res.status(200).json({
       success: true,
-      msg: "Google login successful",
+      msg: "login successful",
       user: req.user,
     });
   }
 });
-router.route("/google-login/failed").get(function (req, res) {
-  res.status(401).json({ success: false, msg: "Google login failed!" });
+router.get("/login/failed", function (req, res) {
+  res.status(401).json({ success: false, msg: "login failed!" });
 });
 router.get(
   "/google-login",

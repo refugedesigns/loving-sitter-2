@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import {
   AppBar,
   Container,
@@ -83,15 +83,17 @@ const Header = React.memo(() => {
             }
           />
           <Toolbar className="flex justify-between" disableGutters>
-            <IconButton className="rounded-none">
-              <CardMedia
-                component="img"
-                height="40"
-                image="/assets/logo.png"
-                alt="loving-sitter logo"
-                className="object-contain w-max"
-              />
-            </IconButton>
+            <Link to="/">
+              <IconButton className="rounded-none">
+                <CardMedia
+                  component="img"
+                  height="40"
+                  image="/assets/logo.png"
+                  alt="loving-sitter logo"
+                  className="object-contain w-max"
+                />
+              </IconButton>
+            </Link>
             <Hidden mdUp>
               <IconButton
                 size="large"

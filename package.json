@@ -11,7 +11,7 @@
     "install-server": "npm install --prefix server",
     "install-client": "npm install --prefix client",
     "install": "npm run install-server && npm run install-client",
-    "deploy": "npm run build --prefix client && npm run server --prefix server",
+    "deploy": "npm run build --prefix client && npm run server",
     "test-server": "npm test --prefix server",
     "test-client": "npm test --prefix client"
   },
@@ -25,5 +25,8 @@
   "bugs": {
     "url": "https://github.com/refugedesigns/loving-sitter-2/issues"
   },
-  "homepage": "https://github.com/refugedesigns/loving-sitter-2#readme"
+  "homepage": "https://github.com/refugedesigns/loving-sitter-2#readme",
+  "dependencies": {
+    "passport-local": "^1.0.0"
+  }
 }

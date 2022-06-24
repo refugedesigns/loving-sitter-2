@@ -1,6 +1,8 @@
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const LocalStrategy = require("passport-local").Strategy;
 const passport = require("passport");
 const User = require("../models/user.model");
+const { createCustomError } = require("../utils/custom-error");
 
 passport.use(
   new GoogleStrategy(
@@ -27,6 +29,56 @@ passport.use(
         console.log(existingUser)
         done(null, existingUser[0]);
       }
+    }
+  )
+);
+
+passport.use(
+  "local-signup",
+  new LocalStrategy(
+    {
+      usernameField: "email",
+      passwordField: "password",
+      passReqToCallback: true,
+    },
+    function (req, email, password, done) {
+      const { fullName } = req.body;
+      process.nextTick(async () => {
+        const user = await User.findOne({ email });
+        if (user)
+          return done(createCustomError("This user already exist", 400));
+        const newUser = await User.create({
+          fullName,
+          email,
+          password,
+        });
+        return done(null, newUser);
+      });
+    }
+  )
+);
+
+passport.use(
+  "local-login",
+  new LocalStrategy(
+    {
+      usernameField: "email",
+    },
+    function (email, password, done) {
+      process.nextTick(async () => {
+        const user = await User.findOne({ email });
+        if (!user)
+          return done(
+            createCustomError(
+              "This user is not available, please sign up to continue",
+              404
+            )
+          );
+        const passwordMatch = await user.matchPassword(password);
+        if (!passwordMatch)
+          return done(createCustomError("email or password do not match", 422));
+        return done(null, user);
+      });
     }
   )
 );
