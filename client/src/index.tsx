@@ -11,8 +11,8 @@ import reportWebVitals from './reportWebVitals';
 import { StyledEngineProvider } from "@mui/material";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
-import { PersistGate } from "redux-persist/integration/react";
-import { store, persistor } from "./redux/store";
+import { store } from './redux/store';
+
 
 const HotApp = hot(App)
 
@@ -24,9 +24,7 @@ root.render(
     <StyledEngineProvider injectFirst>
       <Provider store={store}>
         <BrowserRouter>
-          <PersistGate persistor={persistor}>
             <HotApp />
-          </PersistGate>
         </BrowserRouter>
       </Provider>
     </StyledEngineProvider>

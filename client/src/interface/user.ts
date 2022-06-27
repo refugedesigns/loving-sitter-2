@@ -19,10 +19,10 @@ export interface User {
     profilePhoto?: string;
     about?: string;
     payments?: Array<string> | [];
-    isThirdParty: boolean;
+    isThirdParty: boolean | null;
     googleId: null | string;
-    isAvailable: boolean;
+    isAvailable: boolean | null;
     availabilityDays: Array<Days> | [];
-    price: number;
+    price: number | null;
     imageGallery: Array<string> | [];
 }

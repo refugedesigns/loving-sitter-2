@@ -26,7 +26,5 @@
     "url": "https://github.com/refugedesigns/loving-sitter-2/issues"
   },
   "homepage": "https://github.com/refugedesigns/loving-sitter-2#readme",
-  "dependencies": {
-    "passport-local": "^1.0.0"
-  }
+  "dependencies": {}
 }

@@ -6,12 +6,16 @@ const CLIENT_URL = "http://localhost:3000";
 const router = Router();
 
 //Passport local
-router.post("/signup", passport.authenticate('local-signup'), (req, res) => {
-  res.status(201).json(req.user)
-});
-router.post("/login", passport.authenticate("local-login"), (req, res) => {
-  res.status(200).json(req.user)
-});
+router.post("/signup", passport.authenticate('local-signup', {
+  successRedirect: `${CLIENT_URL}/dogsitter-listings`,
+  failureRedirect: `${CLIENT_URL}/signin`
+}));
+router.post(
+  "/login",
+  passport.authenticate("local-login", {
+    successRedirect: `${CLIENT_URL}/dogsitter-listings`,
+    failureRedirect: `${CLIENT_URL}/signin`,
+  }));
 router.route("/register-dogsitter").post();
 router.route("/").get();
 

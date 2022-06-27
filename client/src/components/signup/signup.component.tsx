@@ -1,7 +1,5 @@
 import React from "react";
 import { Formik } from "formik";
-import { signUpStart } from "../../redux/user/user.actions";
-import { useAppDispatch } from "../../redux/store";
 import * as Yup from "yup";
 
 import {
@@ -17,7 +15,6 @@ import { FcGoogle } from "react-icons/fc";
 import { MdOutlineDoubleArrow } from "react-icons/md";
 
 const Signup = () => {
-  const dispatch = useAppDispatch();
   const initialValues: {
     email: string;
     fullName: string;
@@ -55,7 +52,7 @@ const Signup = () => {
       ) => {
         console.log(values);
         const { fullName, email, password } = values
-        dispatch(signUpStart({fullName, email, password}))
+       
       }}
     >
       {({
