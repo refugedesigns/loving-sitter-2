@@ -1,6 +1,9 @@
 import React from "react";
 
 import { Routes, Route } from "react-router-dom";
+import { useSelector } from "react-redux";
+
+import { selectCurrentUser } from "./redux/user/user.slice";
 
 import { ThemeProvider } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
@@ -16,6 +19,9 @@ import BookingsPage from "./pages/bookings/bookings.component"
 import RequestsPage from "./pages/requests/requests.component";
 
 function App() {
+  const user = useSelector(selectCurrentUser)
+  
+  console.log(user)
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />

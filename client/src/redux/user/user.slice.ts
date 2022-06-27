@@ -1,60 +1,46 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RootState } from "../store";
+import { createSlice, createSelector } from "@reduxjs/toolkit";
 import { User } from "../../interface/user";
+import { api } from "../api";
+import { RootState } from "../store";
 
-const initialState: {isLoading: boolean, user: User} = {
-  isLoading: false,
-  user: {
-    _id: "",
-    fullName: "",
-    email: "",
-    isDogsitter: false,
-    profilePhoto: "",
-    imageGallery: [],
-    payments: [],
-    isAvailable: false,
-    availabilityDays: [],
-    price: 0,
-    isThirdParty: false,
-    googleId: null,
-    about: "",
-    city: "",
-    address: "",
-    phoneNumber: "",
-  }
+const user: User = {
+  _id: "",
+  fullName: "",
+  email: "",
+  isDogsitter: null,
+  city: "",
+  address: "",
+  phoneNumber: "",
+  profilePhoto: "",
+  about: "",
+  payments: [],
+  isThirdParty: null,
+  googleId: "",
+  isAvailable: null,
+  availabilityDays: [],
+  price: null,
+  imageGallery: [],
 };
 
 const userSlice = createSlice({
-  name: "user",
-  initialState,
-  reducers: {
-    addUser: (state, action: PayloadAction<User>) => {
-        state.user._id = action.payload._id;
-        state.user.fullName = action.payload.fullName;
-        state.user.email = action.payload.email; 
-        state.user.isDogsitter = action.payload.isDogsitter;
-        state.user.isAvailable = action.payload.isAvailable;
-        state.user.payments = action.payload.payments;
-        state.user.profilePhoto = action.payload.profilePhoto;
-        state.user.imageGallery = action.payload.imageGallery;
-        state.user.price = action.payload.price;
-        state.user.availabilityDays = action.payload.availabilityDays
-        state.user.isThirdParty = action.payload.isThirdParty;
-        state.user.googleId = action.payload.googleId;
-        state.user.about = action.payload.about;
-        state.user.address = action.payload.address;
-        state.user.phoneNumber = action.payload.phoneNumber;
-        state.user.city = action.payload.city;
-    },
-    startLoading: (state) => {
-        state.isLoading = true
-    }, 
-    stopLoading: (state) => {
-        state.isLoading = false
-    }
+  name: "auth",
+  initialState: {
+    user
   },
-});
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addMatcher(api.endpoints.fetchUser.matchFulfilled, (state, {payload}) => {
+      state.user = payload.user
+    })
+  }
+})
 
-export const { addUser, startLoading, stopLoading } = userSlice.actions
+const selectUser = (state: RootState) => state.auth.user
 
-export default userSlice.reducer
+export const selectCurrentUser = createSelector([selectUser], userData => userData)
+
+export default userSlice.reducer 
+
+
+
+
