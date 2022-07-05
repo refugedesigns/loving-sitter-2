@@ -1,60 +1,92 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RootState } from "../store";
-import { User } from "../../interface/user";
+import { createSlice, createSelector } from "@reduxjs/toolkit"
+import { User } from "../../interface/user"
+import { api } from "../api"
+import { RootState } from "../store"
+import setLogoutTime from "../../helpers/utils/set-autologout"
 
-const initialState: {isLoading: boolean, user: User} = {
-  isLoading: false,
-  user: {
-    _id: "",
-    fullName: "",
-    email: "",
-    isDogsitter: false,
-    profilePhoto: "",
-    imageGallery: [],
-    payments: [],
-    isAvailable: false,
-    availabilityDays: [],
-    price: 0,
-    isThirdParty: false,
-    googleId: null,
-    about: "",
-    city: "",
-    address: "",
-    phoneNumber: "",
-  }
-};
+export interface UserSliceState {
+  user: User
+  expiryDate: string | Date 
+  remainingTime: number | null
+}
+
+const user: User = {
+  _id: "",
+  fullName: "",
+  email: "",
+  isDogsitter: null,
+  city: "",
+  address: "",
+  phoneNumber: "",
+  profilePhoto: "",
+  about: "",
+  payments: [],
+  isThirdParty: null,
+  googleId: "",
+  isAvailable: null,
+  availabilityDays: [],
+  price: null,
+  imageGallery: [],
+}
 
 const userSlice = createSlice({
-  name: "user",
-  initialState,
+  name: "auth",
+  initialState: {
+    user,
+    expiryDate: "",
+    remainingTime: null,
+  } as UserSliceState,
   reducers: {
-    addUser: (state, action: PayloadAction<User>) => {
-        state.user._id = action.payload._id;
-        state.user.fullName = action.payload.fullName;
-        state.user.email = action.payload.email; 
-        state.user.isDogsitter = action.payload.isDogsitter;
-        state.user.isAvailable = action.payload.isAvailable;
-        state.user.payments = action.payload.payments;
-        state.user.profilePhoto = action.payload.profilePhoto;
-        state.user.imageGallery = action.payload.imageGallery;
-        state.user.price = action.payload.price;
-        state.user.availabilityDays = action.payload.availabilityDays
-        state.user.isThirdParty = action.payload.isThirdParty;
-        state.user.googleId = action.payload.googleId;
-        state.user.about = action.payload.about;
-        state.user.address = action.payload.address;
-        state.user.phoneNumber = action.payload.phoneNumber;
-        state.user.city = action.payload.city;
+    logout: (state) => {
+      state.user._id = ""
+      state.user.fullName = ""
+      state.user.email = ""
+      state.user.isDogsitter = null
+      state.user.city = ""
+      state.user.address = ""
+      state.user.profilePhoto = ""
+      state.user.phoneNumber = ""
+      state.user.about = ""
+      state.user.isAvailable = null
+      state.user.isThirdParty = null
+      state.user.price = 0
+      state.user.googleId = ""
+      state.user.payments = []
+      state.user.availabilityDays = []
+      state.expiryDate = ""
+      state.remainingTime = 0
     },
-    startLoading: (state) => {
-        state.isLoading = true
-    }, 
-    stopLoading: (state) => {
-        state.isLoading = false
-    }
   },
-});
+  extraReducers: (builder) => {
+    builder
+      .addMatcher(
+        api.endpoints.fetchUser.matchFulfilled,
+        (state, { payload }) => {
+          state.user = payload.user
+        }
+      )
+      .addMatcher(api.endpoints.login.matchFulfilled, (state, { payload }) => {
+        state.user = payload.user
+        setLogoutTime(state)
+      })
+  },
+})
 
-export const { addUser, startLoading, stopLoading } = userSlice.actions
+const selectUserData = (state: RootState) => state.auth
+
+export const { logout } = userSlice.actions
+
+export const selectCurrentUser = createSelector(
+  [selectUserData],
+  (userData) => userData.user
+)
+export const selectExpiry = createSelector(
+  [selectUserData],
+  (userData) => userData.expiryDate
+)
+export const selectRemainingTime = createSelector(
+  [selectUserData],
+  (userData) => userData.remainingTime
+)
 
 export default userSlice.reducer

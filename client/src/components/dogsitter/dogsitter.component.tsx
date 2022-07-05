@@ -6,7 +6,7 @@ import { HiLocationMarker } from "react-icons/hi";
 
 const Dogsitter = () => {
   return (
-    <Card className="flex space-x-2 max-w-md lg:block lg:max-w-[16rem] lg:space-x-0">
+    <Card className="flex space-x-2 max-w-md lg:block lg:max-w-[16rem] lg:space-x-0 hover:cursor-pointer hover:scale-100">
       <Box className="w-[50%] lg:w-min lg:h-[25%] lg:py-2 lg:mx-auto">
         <Avatar className="rounded-none w-full h-full lg:rounded-full lg:w-20 lg:h-20" />
       </Box>

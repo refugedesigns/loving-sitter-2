@@ -1,5 +1,7 @@
-import React, { useCallback, useState } from "react";
-import { useLocation, Link } from "react-router-dom";
+import React, { useCallback, useState } from "react"
+import { useLocation, Link } from "react-router-dom"
+import { useSelector } from "react-redux"
+import { selectCurrentUser } from "../../redux/user/user.slice"
 import {
   AppBar,
   Container,
@@ -15,62 +17,61 @@ import {
   Menu,
   MenuItem,
   ClickAwayListener,
-} from "@mui/material";
-import { MoreVert } from "@mui/icons-material";
+} from "@mui/material"
+import { MoreVert } from "@mui/icons-material"
 
-import MobileMenu from "../ui/mobile-header-menu.component";
-import LinkTab from "../ui/link-tab.component";
-import RegisterDositterModal from "../modals/register-dogsitter/register-dositter.component";
-import Notifications from "../notifications/notifications.component";
+import MobileMenu from "../ui/mobile-header-menu.component"
+import LinkTab from "../ui/link-tab.component"
+import RegisterDositterModal from "../modals/register-dogsitter/register-dositter.component"
+import Notifications from "../notifications/notifications.component"
 
 const Header = React.memo(() => {
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
-    useState<null | HTMLElement>(null);
-  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
-  const [user, setUser] = useState<string | undefined>("Eric");
-  const [tabValue, setTabValue] = useState(0);
+    useState<null | HTMLElement>(null)
+  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null)
+  const user = useSelector(selectCurrentUser)
+  const [tabValue, setTabValue] = useState(0)
   const [openRegisterDogsitterModal, setOpenRegisterDogsitterModal] =
-    useState<boolean>(false);
-  const [openNotification, setOpenNotification] = useState<boolean>(false);
-  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-  const location = useLocation();
+    useState<boolean>(false)
+  const [openNotification, setOpenNotification] = useState<boolean>(false)
+  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl)
+  const location = useLocation()
 
   const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
-  };
+    setMobileMoreAnchorEl(null)
+  }
 
   const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-    setMobileMoreAnchorEl(event.currentTarget);
-  };
+    setMobileMoreAnchorEl(event.currentTarget)
+  }
 
   const handleChangeTab = (event: React.SyntheticEvent, newValue: number) => {
-    console.log(newValue);
-    setTabValue(newValue);
-  };
+    setTabValue(newValue)
+  }
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElUser(event.currentTarget);
-  };
+    setAnchorElUser(event.currentTarget)
+  }
 
   const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
+    setAnchorElUser(null)
+  }
 
   const handleOpenRegisterDogsitterModal = () => {
-    setOpenRegisterDogsitterModal(true);
-  };
+    setOpenRegisterDogsitterModal(true)
+  }
 
   const handleCloseRegisterDogsitterModal = () => {
-    setOpenRegisterDogsitterModal(false);
-  };
+    setOpenRegisterDogsitterModal(false)
+  }
 
   const handleOpenNotifications = () => {
-    setOpenNotification(true);
-  };
+    setOpenNotification(true)
+  }
 
   const handleClickAwayNotifications = () => {
-    setOpenNotification(false);
-  };
+    setOpenNotification(false)
+  }
 
   return (
     <Box className="flex-1">
@@ -112,24 +113,26 @@ const Header = React.memo(() => {
               />
             </Hidden>
             <Hidden mdDown>
-              {!user ? (
+              {!user._id ? (
                 <Box className="space-x-3">
                   <Button>Become a sitter</Button>
                   <Button className="px-8" variant="outlined">
-                    Login
+                    <Link className="text-inherit no-underline" to="/login">Login</Link>
                   </Button>
                   <Button className="px-8" variant="contained" disableElevation>
-                    Signup
+                    <Link className="text-inherit no-underline" to="/signup">Signup</Link> 
                   </Button>
                 </Box>
               ) : (
                 <Box className="flex items-center relative">
-                  <Button
-                    onClick={handleOpenRegisterDogsitterModal}
-                    className="text-gray-500 focus:text-[#f14140]"
-                  >
-                    Become a sitter
-                  </Button>
+                  {!user.isDogsitter && (
+                    <Button
+                      onClick={handleOpenRegisterDogsitterModal}
+                      className="text-gray-500 focus:text-[#f14140]"
+                    >
+                      Become a sitter
+                    </Button>
+                  )}
                   <ClickAwayListener
                     mouseEvent="onMouseDown"
                     touchEvent="onTouchStart"
@@ -156,11 +159,13 @@ const Header = React.memo(() => {
                     aria-label="logged in nav tabs"
                     className="mr-6"
                   >
-                    <LinkTab
-                      label="Requests"
-                      to="/requests"
-                      value="/requests"
-                    />
+                    {user.isDogsitter && (
+                      <LinkTab
+                        label="Requests"
+                        to="/requests"
+                        value="/requests"
+                      />
+                    )}
                     <LinkTab
                       label="Bookings"
                       to="/bookings"
@@ -209,7 +214,7 @@ const Header = React.memo(() => {
         </Container>
       </AppBar>
     </Box>
-  );
-});
+  )
+})
 
-export default Header;
+export default Header

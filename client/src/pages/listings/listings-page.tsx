@@ -1,29 +1,32 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react"
 import axios from "axios"
 
-import { Container, Box, Grid, Typography, TextField } from "@mui/material";
-import { DatePicker, MobileDatePicker } from "@mui/x-date-pickers";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
-import addDays from "date-fns/addDays";
+import { useFetchUserQuery } from "../../redux/api"
 
-import Dogsitter from "../../components/dogsitter/dogsitter.component";
+import { Container, Box, Grid, Typography, TextField } from "@mui/material"
+import { DatePicker, MobileDatePicker } from "@mui/x-date-pickers"
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider"
+import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment"
+import addDays from "date-fns/addDays"
+
+import Dogsitter from "../../components/dogsitter/dogsitter.component"
 import withLayout from "../../components/hoc/layout-wrapper.component"
 
 const ListingsPage = () => {
-  const [startDate, setStartDate] = useState<Date | null>(new Date());
-  const [endDate, setEndDate] = useState<Date | null>(
-    addDays(new Date(), 7)
-  );
-  const [googleUser, setGoogleUser] = useState();
-  useEffect(() => {
-    async function fetchGoogleUser() {
-     const user = await axios.get("http://localhost:8000/api/v1/user/auth/google-login/success", {withCredentials: true})
+  const [startDate, setStartDate] = useState<Date | null>(new Date())
+  const [endDate, setEndDate] = useState<Date | null>(addDays(new Date(), 7))
+  const [googleUser, setGoogleUser] = useState()
+  const { data, isLoading, isError, isSuccess, error } = useFetchUserQuery({
+    pollingInterval: 5000,
+  })
+  // useEffect(() => {
+  //   async function fetchGoogleUser() {
+  //    const user = await axios.get("http://localhost:8000/api/v1/user/auth/login/success", {withCredentials: true})
 
-     console.log(user.data);
-    }
-    fetchGoogleUser()
-  }, [googleUser])
+  //    console.log(user.data);
+  //   }
+  //   fetchGoogleUser()
+  // }, [googleUser])
   return (
     <>
       <Container
@@ -45,7 +48,7 @@ const ListingsPage = () => {
               <MobileDatePicker
                 value={startDate}
                 onChange={(newValue) => {
-                  setStartDate(newValue);
+                  setStartDate(newValue)
                 }}
                 renderInput={(params) => <TextField {...params} />}
               />
@@ -53,7 +56,7 @@ const ListingsPage = () => {
               <MobileDatePicker
                 value={endDate}
                 onChange={(newValue) => {
-                  setEndDate(newValue);
+                  setEndDate(newValue)
                 }}
                 renderInput={(params) => <TextField {...params} />}
               />
@@ -62,7 +65,7 @@ const ListingsPage = () => {
               <DatePicker
                 value={startDate}
                 onChange={(newValue) => {
-                  setStartDate(newValue);
+                  setStartDate(newValue)
                 }}
                 renderInput={(params) => <TextField {...params} />}
               />
@@ -75,7 +78,7 @@ const ListingsPage = () => {
               <DatePicker
                 value={endDate}
                 onChange={(newValue) => {
-                  setEndDate(newValue);
+                  setEndDate(newValue)
                 }}
                 renderInput={(params) => <TextField {...params} />}
               />
@@ -110,7 +113,7 @@ const ListingsPage = () => {
         </Grid>
       </Container>
     </>
-  );
-};
+  )
+}
 
-export default withLayout(ListingsPage);
+export default withLayout(ListingsPage)

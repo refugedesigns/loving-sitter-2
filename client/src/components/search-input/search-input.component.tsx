@@ -26,7 +26,7 @@ const SearchInput = () => {
         <InputLabel className="uppercase" htmlFor="location">
           Where
         </InputLabel>
-        <TextField fullWidth id="location" />
+        <TextField size="small" fullWidth id="location" />
       </Box>
       <Box className="mx-auto h-[350px]">
         <DateRange
