@@ -2,7 +2,6 @@
   "name": "loving-sitter-2",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "server": "npm run dev --prefix server",
@@ -13,7 +12,8 @@
     "install": "npm run install-server && npm run install-client",
     "deploy": "npm run build --prefix client && npm run server",
     "test-server": "npm test --prefix server",
-    "test-client": "npm test --prefix client"
+    "test-client": "npm test --prefix client",
+    "seed": "npm run seed --prefix server"
   },
   "repository": {
     "type": "git",
@@ -25,6 +25,5 @@
   "bugs": {
     "url": "https://github.com/refugedesigns/loving-sitter-2/issues"
   },
-  "homepage": "https://github.com/refugedesigns/loving-sitter-2#readme",
-  "dependencies": {}
+  "homepage": "https://github.com/refugedesigns/loving-sitter-2#readme"
 }

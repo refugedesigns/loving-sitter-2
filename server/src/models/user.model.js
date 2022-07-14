@@ -17,6 +17,7 @@ const UserSchema = new Schema({
         type: Boolean,
         default: false
     },
+    petSittingCategory: Array,
     city: String,
     address: String,
     phoneNumber: String,
@@ -46,7 +47,7 @@ const UserSchema = new Schema({
             ref: "Image"
         }
     ],
-})
+}, {timestamps: true})
 
 UserSchema.methods.matchPassword = async function(enteredPassword) {
     return await bcrypt.compare(enteredPassword, this.password)

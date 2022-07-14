@@ -18,7 +18,12 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import addDays from "date-fns/addDays";
 
-const DogsitterBookingCard = () => {
+interface Props {
+  price?: number
+  id: string
+}
+
+const DogsitterBookingCard: React.FC<Props> = ({price, id}) => {
   const [startDate, setStartDate] = React.useState<Date | null>(new Date());
   const [endDate, setEndDate] = React.useState<Date | null>(
     addDays(new Date(), 7)
@@ -27,7 +32,7 @@ const DogsitterBookingCard = () => {
   return (
     <Card className="flex flex-col max-w-md px-4 py-8 space-y-8 mx-auto mb-10 h-max xl:fixed xl:right-[5%] 2xl:right-[18%]">
       <Box className="mx-auto flex flex-col items-center space-y-6">
-        <Typography className="font-semibold text-5xl text-red-400" variant="h5">$30/hr</Typography>
+        <Typography className="font-semibold text-5xl " variant="h5">${price}/hr</Typography>
         <Rating value={4} readOnly />
       </Box>
       <LocalizationProvider dateAdapter={AdapterMoment}>

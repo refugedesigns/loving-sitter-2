@@ -7,7 +7,7 @@ export const api = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:8000/api/v1",
   }),
-  tagTypes: ["User"],
+  tagTypes: ["User", "Dogsitter"],
   endpoints: (builder) => ({
     signUpUser: builder.mutation<
       User,
@@ -22,31 +22,39 @@ export const api = createApi({
     }),
     fetchUser: builder.query<
       { success: boolean; msg: string; user: User },
-      undefined
+      any
     >({
       query: () => ({
         url: "/user/auth/login/success",
+        credentials: "include"
       }),
       transformResponse: (responseData: {
         success: boolean;
         msg: string;
         user: User;
       }) => {
-        console.log(responseData);
+
         return responseData;
       },
       providesTags: ["User"],
     }),
-    login: builder.mutation<User, { email: string; password: string }>({
+    login: builder.mutation<{success: boolean, msg: string, user: User}, { email: string; password: string }>({
       query: (credentials) => ({
         url: "/user/auth/login",
         method: "POST",
-        body: credentials,
+        body: { email: credentials.email, password: credentials.password },
+        credentials: "include"
       }),
       invalidatesTags: ["User"],
     }),
+    fetchAllDogsitters: builder.query<User[], any>({
+      query: () => ({
+        url: "/dogsitters",
+        credentials: "include"
+      })
+    })
   }),
 });
 
-export const { useSignUpUserMutation, useFetchUserQuery, useLoginMutation } =
+export const { useSignUpUserMutation, useFetchUserQuery, useLoginMutation, useFetchAllDogsittersQuery } =
   api;

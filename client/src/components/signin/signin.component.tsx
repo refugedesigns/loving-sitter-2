@@ -1,21 +1,36 @@
-import React, { useEffect, useState} from 'react'
-import { Formik } from "formik";
-import * as Yup from "yup";
+import React, { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
+import { useSelector } from "react-redux"
+import { Formik } from "formik"
+import * as Yup from "yup"
 
-import { useLoginMutation } from '../../redux/api';
+import { selectCurrentUser } from "../../redux/user/user.slice"
+import { useLoginMutation } from "../../redux/api"
 
-import { Paper, Box,  TextField, InputLabel, Button, Typography, Divider } from '@mui/material'
+import {
+  Paper,
+  Box,
+  TextField,
+  InputLabel,
+  Button,
+  Typography,
+  Divider,
+  CircularProgress,
+} from "@mui/material"
 import { FcGoogle } from "react-icons/fc"
-import { MdOutlineDoubleArrow } from 'react-icons/md'
+import { MdOutlineDoubleArrow } from "react-icons/md"
+import { User } from "../../interface/user"
 
 const Signin = () => {
-  const [login, {isLoading, isSuccess, isError,}] = useLoginMutation()
+  const navigate = useNavigate()
+  const [login, { isLoading, isSuccess, isError }] = useLoginMutation()
+
+  const user: User = useSelector(selectCurrentUser)
 
   const googleLogin = () => {
-    window.open("http://localhost:8000/api/v1/user/auth/google-login", "_self");
-  };
+    window.open("http://localhost:8000/api/v1/user/auth/google-login", "_self")
+  }
 
-  
   return (
     <Formik
       initialValues={{
@@ -31,12 +46,17 @@ const Signin = () => {
           .max(100, "Password is too long")
           .min(6, "Password is too short"),
       })}
-      onSubmit={(
+      onSubmit={async (
         values: { email: string; password: string },
         { setSubmitting, resetForm }
       ) => {
-        console.log(values);
-        const { email, password } = values;
+        try {
+          await login(values).unwrap()
+          navigate("/dogsitter-listings")
+        } catch (error) {
+          console.log(error)
+        }
+        setSubmitting(false)
       }}
     >
       {({
@@ -51,7 +71,11 @@ const Signin = () => {
           <Typography align="center" variant="h4" mt={5}>
             Signin
           </Typography>
-          <Box onSubmit={handleSubmit} component="form" className="flex flex-col items-center w-full space-y-6 p-4">
+          <Box
+            onSubmit={handleSubmit}
+            component="form"
+            className="flex flex-col items-center w-full space-y-6 p-4"
+          >
             <Box className="w-full">
               <InputLabel htmlFor="email">Email Address</InputLabel>
               <TextField
@@ -69,7 +93,7 @@ const Signin = () => {
               />
             </Box>
             <Box className="w-full">
-              <InputLabel htmlFor='password'>Password</InputLabel>
+              <InputLabel htmlFor="password">Password</InputLabel>
               <TextField
                 id="password"
                 name="password"
@@ -84,15 +108,26 @@ const Signin = () => {
                 onChange={handleChange}
               />
             </Box>
-            <Button
-              className="lg:w-1/2 whitespace-nowrap"
-              disableElevation
-              type="submit"
-              variant="contained"
-              startIcon={<MdOutlineDoubleArrow />}
-            >
-              Continue with email
-            </Button>
+            {isLoading ? (
+              <Button
+                className="lg:w-1/2 whitespace-nowrap"
+                disableElevation
+                variant="contained"
+              >
+                <CircularProgress className="h-5 w-5 text-white" />
+              </Button>
+            ) : (
+              <Button
+                className="lg:w-1/2 whitespace-nowrap"
+                disableElevation
+                type="submit"
+                variant="contained"
+                startIcon={<MdOutlineDoubleArrow />}
+              >
+                Continue with email
+              </Button>
+            )}
+
             <Box className="flex items-center space-x-2 w-1/2">
               <Divider className="flex-1" />
               <Typography>or</Typography>
@@ -111,7 +146,7 @@ const Signin = () => {
         </Paper>
       )}
     </Formik>
-  );
+  )
 }
 
 export default Signin

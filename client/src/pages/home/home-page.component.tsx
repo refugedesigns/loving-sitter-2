@@ -1,6 +1,7 @@
-import React from "react";
-import { Link } from "react-router-dom";
-
+import React from "react"
+import { Link } from "react-router-dom"
+import { useSelector } from "react-redux"
+import { selectCurrentUser } from "../../redux/user/user.slice"
 import {
   Box,
   Grid,
@@ -9,15 +10,15 @@ import {
   Card,
   Container,
   Hidden,
-  CssBaseline,
   IconButton,
   Button,
-} from "@mui/material";
-import { Menu } from "@mui/icons-material";
+} from "@mui/material"
+import { Menu } from "@mui/icons-material"
 
-import SearchInput from "../../components/search-input/search-input.component";
+import SearchInput from "../../components/search-input/search-input.component"
 
 const HomePage = () => {
+  const user = useSelector(selectCurrentUser)
   return (
     <Grid className="" container>
       <Grid className="min-h-screen" item xs={12} md={6}>
@@ -46,26 +47,34 @@ const HomePage = () => {
         </Container>
       </Grid>
       <Hidden mdDown>
-        <Grid className="relative bg-home-page bg-no-repeat bg-cover min-h-screen" item md={6}>
-          <Box className="absolute right-10 top-10 space-x-6">
+        <Grid
+          className="relative bg-home-page bg-no-repeat bg-cover min-h-screen"
+          item
+          md={6}
+        >
+          <Box className="absolute flex right-10 top-10 space-x-4">
             <Button variant="text" className="text-white hover:underline">
               Become a sitter
             </Button>
-            <Button variant="outlined" className="px-8 text-white">
-              <Link className="text-inherit no-underline" to="/login">
-                Login
-              </Link>
-            </Button>
-            <Button variant="contained" className="px-8">
-              <Link className="text-inherit no-underline" to="/signup">
-                Signup
-              </Link>
-            </Button>
+            {!user._id && (
+              <Box className="space-x-6">
+                <Button variant="outlined" className="px-8 text-white">
+                  <Link className="text-inherit no-underline" to="/login">
+                    Login
+                  </Link>
+                </Button>
+                <Button variant="contained" className="px-8">
+                  <Link className="text-inherit no-underline" to="/signup">
+                    Signup
+                  </Link>
+                </Button>
+              </Box>
+            )}
           </Box>
         </Grid>
       </Hidden>
     </Grid>
-  );
-};
+  )
+}
 
-export default HomePage;
+export default HomePage
