@@ -12,7 +12,8 @@
     "install": "npm run install-server && npm run install-client",
     "deploy": "npm run build --prefix client && npm run server",
     "test-server": "npm test --prefix server",
-    "test-client": "npm test --prefix client"
+    "test-client": "npm test --prefix client",
+    "seed": "npm run seed --prefix server"
   },
   "repository": {
     "type": "git",

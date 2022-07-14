@@ -4,6 +4,7 @@ import storage from "./storage"
 import logger from "redux-logger"
 import { api } from "./api";
 import userReducer from "./user/user.slice"
+import dogsitterReducer from "./dogsitter/dogsitter.slice"
 
 const middlewares = [api.middleware]
 
@@ -13,7 +14,8 @@ if(process.env.NODE_ENV === "development") {
 
 const reducers = combineReducers({
   [api.reducerPath]: api.reducer,
-  auth: userReducer
+  auth: userReducer,
+  dogsitters: dogsitterReducer
 })
 
 const persistConfig = {

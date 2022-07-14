@@ -7,7 +7,7 @@ export const api = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:8000/api/v1",
   }),
-  tagTypes: ["User"],
+  tagTypes: ["User", "Dogsitter"],
   endpoints: (builder) => ({
     signUpUser: builder.mutation<
       User,
@@ -47,8 +47,14 @@ export const api = createApi({
       }),
       invalidatesTags: ["User"],
     }),
+    fetchAllDogsitters: builder.query<User[], any>({
+      query: () => ({
+        url: "/dogsitters",
+        credentials: "include"
+      })
+    })
   }),
 });
 
-export const { useSignUpUserMutation, useFetchUserQuery, useLoginMutation } =
+export const { useSignUpUserMutation, useFetchUserQuery, useLoginMutation, useFetchAllDogsittersQuery } =
   api;

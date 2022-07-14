@@ -1,32 +1,45 @@
-import React, { useState, useEffect } from "react"
-import axios from "axios"
+import React, { useState, useEffect, useMemo } from "react"
 
-import { useFetchUserQuery } from "../../redux/api"
-
+import { useParams, useLocation } from "react-router"
 import { Container, Box, Grid, Typography, TextField } from "@mui/material"
 import { DatePicker, MobileDatePicker } from "@mui/x-date-pickers"
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider"
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment"
 import addDays from "date-fns/addDays"
 
+import { useSelector } from "react-redux"
+import { selectAllDogsiters } from "../../redux/dogsitter/dogsitter.slice"
+import { useFetchAllDogsittersQuery } from "../../redux/api"
+import { Dogsitter as DogsitterInterface } from "../../interface/user"
+
 import Dogsitter from "../../components/dogsitter/dogsitter.component"
 import withLayout from "../../components/hoc/layout-wrapper.component"
 
 const ListingsPage = () => {
+  const location = useLocation()
+  const params = useMemo(() => {
+    return Object.fromEntries(new URLSearchParams(location?.search))
+  }, [location.search])
   const [startDate, setStartDate] = useState<Date | null>(new Date())
-  const [endDate, setEndDate] = useState<Date | null>(addDays(new Date(), 7))
-  const [googleUser, setGoogleUser] = useState()
-  const { data, isLoading, isError, isSuccess, error } = useFetchUserQuery({
-    pollingInterval: 5000,
-  })
-  // useEffect(() => {
-  //   async function fetchGoogleUser() {
-  //    const user = await axios.get("http://localhost:8000/api/v1/user/auth/login/success", {withCredentials: true})
+  const [endDate, setEndDate] = useState<Date | null>(addDays(new Date(), 6))
+  const startDay = startDate?.toString().split(" ")[0]
+  const endDay = endDate?.toString().split(" ")[0]
+  const { data } = useFetchAllDogsittersQuery("")
+  const dogsitters = useSelector(selectAllDogsiters) as DogsitterInterface[]
+  const [city, setCity] = useState<string>("")
+  console.log(dogsitters)
+  console.log(startDay, endDay)
+  console.log(startDate)
+  console.log(dogsitters)
 
-  //    console.log(user.data);
-  //   }
-  //   fetchGoogleUser()
-  // }, [googleUser])
+  useEffect(() => {
+    if (params.location) {
+      setCity(params.location)
+      setStartDate(new Date(params.start))
+      setEndDate(new Date(params.end))
+    }
+  }, [params])
+
   return (
     <>
       <Container
@@ -42,6 +55,10 @@ const ListingsPage = () => {
             fullWidth
             hiddenLabel
             placeholder="location"
+            value={city}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+              setCity(event.target.value)
+            }}
           />
           <LocalizationProvider dateAdapter={AdapterMoment}>
             <Box className="md:hidden flex space-x-3 items-center justify-center md:w-1/2">
@@ -69,12 +86,7 @@ const ListingsPage = () => {
                 }}
                 renderInput={(params) => <TextField {...params} />}
               />
-              <Typography
-                className="text-gray-500
-          "
-              >
-                to
-              </Typography>
+              <Typography className="text-gray-500">to</Typography>
               <DatePicker
                 value={endDate}
                 onChange={(newValue) => {
@@ -86,7 +98,7 @@ const ListingsPage = () => {
           </LocalizationProvider>
         </Box>
       </Container>
-      <Container className="pt-16">
+      <Container className="py-16">
         <Grid
           className=""
           rowSpacing={3}
@@ -96,18 +108,40 @@ const ListingsPage = () => {
           justifyContent={{ xs: "center", md: "start" }}
           container
         >
-          {Array(10)
-            .fill(null)
-            .map((_, index) => (
+          {dogsitters
+            ?.filter((dogsitter) => {
+              if (!dogsitter.city?.toLocaleLowerCase().includes(city)) {
+                return false
+              }
+
+              if (!dogsitter.availabilityDays.includes(startDay as string)) {
+                return false
+              }
+
+              if (!dogsitter.availabilityDays.includes(endDay as string)) {
+                return false
+              }
+
+              return true
+            })
+            .map((dogsitter) => (
               <Grid
-                key={index}
+                key={dogsitter.id}
                 className="flex flex-col items-center"
                 item
                 xs={12}
                 md={3}
                 lg={3}
               >
-                <Dogsitter />
+                <Dogsitter
+                  name={dogsitter.fullName}
+                  description={dogsitter.about}
+                  price={dogsitter.price}
+                  city={dogsitter.city}
+                  tags={dogsitter.petSittingCategory}
+                  profilePhoto={dogsitter.profilePhoto}
+                  dogsitterId={dogsitter.id}
+                />
               </Grid>
             ))}
         </Grid>

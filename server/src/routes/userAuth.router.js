@@ -1,15 +1,14 @@
 const { Router } = require("express")
 const passport = require("passport")
 
-const generateToken = require("../../utils/generate-token")
-const protect = require("../../middlewares/auth")
-
+const { signinUser } = require("../controllers/user/user.controller")
+const { validateLocalLogin, validateLocalRegister } = require("../utils/validate")
 const CLIENT_URL = "http://localhost:3000"
 
 const router = Router()
 
 //Passport local
-router.post("/signup", passport.authenticate("local-signup"), (req, res) => {
+router.post("/signup", validateLocalRegister, passport.authenticate("local-signup"), (req, res) => {
   if (req.user) {
     res.status(200).json({
       success: true,
@@ -24,37 +23,7 @@ router.post("/signup", passport.authenticate("local-signup"), (req, res) => {
     })
   }
 })
-router.post("/login", passport.authenticate("local-login"), (req, res) => {
-  console.log(req.user)
-  if (req.user) {
-    return res.status(200).json({
-      success: true,
-      msg: "Login successful",
-      user: {
-        _id: req.user._id,
-        fullName: req.user.fullName,
-        profilePhoto: req.user.profilePhoto,
-        price: req.user.price,
-        phoneNumber: req.user.phoneNumber,
-        payments: req.user.payments,
-        isThirdParty: req.user.isThirdParty,
-        isDogsitter: req.user.isDogsitter,
-        isAvailable: req.user.isAvailable,
-        imageGalley: req.user.imageGallery,
-        googleId: req.user.googleId,
-        email: req.user.email,
-        city: req.user.city,
-        availableDays: req.user.availableDays,
-        address: req.user.address,
-        about: req.user.about,
-      },
-    })
-  }
-  return res.status(401).json({
-    success: false,
-    msg: "Login failed.",
-  })
-})
+router.post("/login", validateLocalLogin, passport.authenticate("local-login"), signinUser)
 router.route("/register-dogsitter").post()
 router.route("/").get()
 
